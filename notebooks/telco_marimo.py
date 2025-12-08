@@ -31,9 +31,16 @@ def _():
     DATA_PATH = Path("input/WA_Fn-UseC_-Telco-Customer-Churn.csv")
     MODEL_SAVE_PATH = Path("models/telco_logistic_regression.joblib")
 
-    SAVE_MODEL = False
+    SAVE_MODEL = True
 
-    SELECTED_FEATURES = ["tenure", "MonthlyCharges", "TechSupport_yes"]
+    SELECTED_FEATURES = [
+    "tenure",
+    "MonthlyCharges",
+    "TechSupport_yes",
+    "Contract_one year",
+    "Contract_two year",
+    "PaperlessBilling_yes",
+]
     TEST_SIZE = 0.20
     C_VALUE = 1.0
     MAX_ITER = 1000
@@ -144,3 +151,4 @@ def _(MODEL_SAVE_PATH, SAVE_MODEL, model, scaler):
 
 if __name__ == "__main__":
     app.run()
+
