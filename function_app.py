@@ -44,7 +44,7 @@ def predict(req: func.HttpRequest) -> func.HttpResponse:
         contract_months = int(req.params.get("contract_months"))
         internet_service = req.params.get("internet_service")
         payment_method = req.params.get("payment_method")
-    except:
+    except Exception:
         return func.HttpResponse("Missing or invalid parameters", status_code=400)
 
     # --- One-hot encoders ---
