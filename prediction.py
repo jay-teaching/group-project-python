@@ -26,14 +26,21 @@ MODEL, SCALER = BUNDLE["model"], BUNDLE["scaler"]
 
 def make_prediction(**kwargs: float) -> float:
     """Make a churn prediction given the input features."""
-    
+
     try:
-        args = [kwargs[feature] for feature in FEATURE_ORDER]
+        # Ensure all features exist
+        _ = [kwargs[feature] for feature in FEATURE_ORDER]
     except KeyError as e:
         raise ValueError(f"Missing feature: {e.args[0]}") from e
 
-    df = pd.DataFrame([args], columns=FEATURE_ORDER)
+    # Build DataFrame from a typed dict instead of a list
+    row = {feature: kwargs[feature] for feature in FEATURE_ORDER}
+    df = pd.DataFrame([row])
+
+    # Scale features
     scaled = SCALER.transform(df)
+
+    # Predict probability
     prob = float(MODEL.predict_proba(scaled)[0, 1])
 
     print(f"Churn probability: {prob:.4f}")
