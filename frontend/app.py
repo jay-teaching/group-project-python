@@ -119,7 +119,7 @@ if st.button("🔮 Predict Churn Probability"):
     }
 
     try:
-        response = requests.get(API_URL, params=params)
+        response = requests.post(API_URL, params=params)
 
         if response.status_code == 200:
             prob = float(response.text)
