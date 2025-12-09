@@ -4,16 +4,16 @@ This is our docs site
 
 ## Features
 
-* Great *Predictions*
+* Great [Predictions](prediction.md)
 * Good looking **dashboard**
 * Easy to use [API](api.md)
 
 ## Project layout
-
-mkdocs.yml          # The configuration file.
+ 
+    mkdocs.yml          # The configuration file.
     docs/
         index.md        # The documentation homepage.
         ...             # Other markdown pages, images and other files.
     api.py              # API with FastAPI
     function_app.py     # Azure function definition
-    test_prediction.py  # Test prediction model
+    prediction.py       # prediction model
