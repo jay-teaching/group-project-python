@@ -4,7 +4,7 @@ This is our docs site
 
 ## Features
 
-* Great [Predictions](prediction.md)
+* Great [Prediction](prediction.md)
 * Good looking **dashboard**
 * Easy to use [API](api.md)
 
@@ -16,4 +16,4 @@ This is our docs site
         ...             # Other markdown pages, images and other files.
     api.py              # API with FastAPI
     function_app.py     # Azure function definition
-    prediction.py       # prediction model
+    prediction.py       # Prediction model

@@ -1,6 +1,6 @@
-# Prediction Model
+# Prediction
 
-Our prediction model is excellent to predict Churn Probability. Here's how:
+Our prediction model is excellent to predict Telco Churn Probability. Here's how:
 
 ## Prediction Model
 
