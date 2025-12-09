@@ -108,42 +108,54 @@ contract_months = st.slider("Contract Length (months)", 1, 36, 12)
 # BUTTON + API CALL
 # -----------------------
 if st.button("🔮 Predict Churn Probability"):
-    params = {
-        "tenure": tenure,
-        "monthly": monthly,
-        "techsupport": 1 if techsupport == "Yes" else 0,
-        "paperless": 1 if paperless == "Yes" else 0,
-        "contract_months": contract_months,
-        "internet_service": internet_service,
-        "payment_method": payment_method,
-    }
+    # added: input validation to prevent empty predictions
+    if tenure == 0 or monthly == 0.0:
+        st.warning("⚠️ Tenure and monthly charges must be > 0")
+    else:
+        # added: loading spinner for better ux
+        with st.spinner("⏳ Predicting..."):
+            params = {
+                "tenure": tenure,
+                "monthly": monthly,
+                "techsupport": 1 if techsupport == "Yes" else 0,
+                "paperless": 1 if paperless == "Yes" else 0,
+                "contract_months": contract_months,
+                "internet_service": internet_service,
+                "payment_method": payment_method,
+            }
 
-    try:
-        response = requests.post(API_URL, params=params)
+            try:
+                response = requests.post(API_URL, params=params)
 
-        if response.status_code == 200:
-            prob = float(response.text)
+                if response.status_code == 200:
+                    prob = response.json()["churn_probability"]
 
-            st.markdown(
-                f"""
-                <div class='result-card'>
-                    <div class='result-prob'>{prob:.2%}</div>
-                    <p>Predicted likelihood of churn</p>
-                </div>
-                """,
-                unsafe_allow_html=True,
-            )
+                    # added: risk interpretation based on probability threshold
+                    if prob > 0.5:
+                        st.warning(f"🚨 High churn risk: {prob:.2%}")
+                    else:
+                        st.success(f"✅ Low churn risk: {prob:.2%}")
 
-            # Gauge-style bar chart
-            fig, ax = plt.subplots(figsize=(6, 1.2))
-            ax.barh([""], [prob], color="#D90429")
-            ax.set_xlim(0, 1)
-            ax.set_yticks([])
-            ax.set_xlabel("Churn Probability")
-            st.pyplot(fig)
+                    st.markdown(
+                        f"""
+                        <div class='result-card'>
+                            <div class='result-prob'>{prob:.2%}</div>
+                            <p>Predicted likelihood of churn</p>
+                        </div>
+                        """,
+                        unsafe_allow_html=True,
+                    )
 
-        else:
-            st.error(f"API Error: {response.text}")
+                    # gauge-style bar chart
+                    fig, ax = plt.subplots(figsize=(6, 1.2))
+                    ax.barh([""], [prob], color="#D90429")
+                    ax.set_xlim(0, 1)
+                    ax.set_yticks([])
+                    ax.set_xlabel("Churn Probability")
+                    st.pyplot(fig)
 
-    except Exception as e:
-        st.error(f"Connection failed: {e}")
+                else:
+                    st.error(f"API Error: {response.text}")
+
+            except Exception as e:
+                st.error(f"Connection failed: {e}")
