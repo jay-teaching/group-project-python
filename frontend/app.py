@@ -1,6 +1,7 @@
 import streamlit as st
 import requests
 import matplotlib.pyplot as plt
+from matplotlib.ticker import PercentFormatter
 
 # -----------------------
 # CONFIG
@@ -131,7 +132,7 @@ if st.button("🔮 Predict Churn Probability"):
                     prob = response.json()["churn_probability"]
 
                     # added: risk interpretation based on probability threshold
-                    if prob > 0.5:
+                    if prob > 0.2:
                         st.warning(f"🚨 High churn risk: {prob:.2%}")
                     else:
                         st.success(f"✅ Low churn risk: {prob:.2%}")
@@ -140,7 +141,7 @@ if st.button("🔮 Predict Churn Probability"):
                         f"""
                         <div class='result-card'>
                             <div class='result-prob'>{prob:.2%}</div>
-                            <p>Predicted likelihood of churn</p>
+                            <p>Predicted likelihood of churn, a figure above 20% is considered risky</p>
                         </div>
                         """,
                         unsafe_allow_html=True,
@@ -152,6 +153,7 @@ if st.button("🔮 Predict Churn Probability"):
                     ax.set_xlim(0, 1)
                     ax.set_yticks([])
                     ax.set_xlabel("Churn Probability")
+                    ax.xaxis.set_major_formatter(PercentFormatter(1.0))
                     st.pyplot(fig)
 
                 else:
