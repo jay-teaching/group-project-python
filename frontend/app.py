@@ -125,7 +125,7 @@ if st.button("🔮 Predict Churn Probability"):
             }
 
             try:
-                response = requests.post(API_URL, params=params)
+                response = requests.post(API_URL, json=params)
 
                 if response.status_code == 200:
                     prob = response.json()["churn_probability"]
