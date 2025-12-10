@@ -117,7 +117,7 @@ group-project-python/
 
 ---
 
-## Acknowledgments
+## Techstack
 
 - Dataset: IBM Telco Customer Churn Dataset
 - Cloud Platform: Microsoft Azure (Azure for Students)
