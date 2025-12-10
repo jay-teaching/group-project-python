@@ -11,7 +11,7 @@ st.set_page_config(
     layout="centered",
 )
 
-API_URL = "https://<YOUR-FUNCTION-APP>.azurewebsites.net/api/predict"
+API_URL = "https://telco-backend.politeriver-aee86836.norwayeast.azurecontainerapps.io/predict"
 
 # -----------------------
 # CUSTOM CSS
