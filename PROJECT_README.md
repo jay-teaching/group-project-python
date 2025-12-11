@@ -117,11 +117,11 @@ group-project-python/
 
 ---
 
-## Techstack
+## Tech Stack
 
 - Dataset: IBM Telco Customer Churn Dataset
-- Cloud Platform: Microsoft Azure (Azure for Students)
-- Frameworks: FastAPI, Streamlit, scikit-learn
+- Cloud Platform: Microsoft Azure
+- Frameworks: FastAPI, Streamlit, scikit-learn, UV, Marimo, pytest, Docker, Uvicorn
 
 ---
 
