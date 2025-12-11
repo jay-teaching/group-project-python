@@ -78,13 +78,44 @@ st.markdown(
 )
 
 # -----------------------
+# MODEL INFO PANEL
+# -----------------------
+with st.expander("ℹ️ About this Model"):
+    st.markdown("""
+    **Dataset**: IBM Telco Customer Churn (7,043 customers)
+    
+    **Model**: Logistic Regression trained on customer demographics, services, and billing data.
+    
+    **Performance**: 
+    - Accuracy: ~80%
+    - Identifies high-risk customers
+    
+    **Features Used** for Prediction:
+    - Customer tenure in months
+    - Monthly charges
+    - Tech support subscription
+    - Paperless billing preference
+    - Contract length
+    - Internet service type
+    - Payment method
+    """)
+
+# -----------------------
 # INPUT UI
 # -----------------------
 col1, col2 = st.columns(2)
 
 with col1:
-    tenure = st.slider("Customer Tenure (months)", 0, 72, 12)
-    techsupport = st.selectbox("Tech Support Included?", ["No", "Yes"])
+    tenure = st.slider(
+        "Customer Tenure (months)",
+        0, 72, 12,
+        help="How long the customer has been with the company. Longer tenure typically indicates lower churn risk."
+    )
+    techsupport = st.selectbox(
+        "Tech Support Included?",
+        ["No", "Yes"],
+        help="Customers with tech support tend to have lower churn rates."
+    )
     payment_method = st.selectbox(
         "Payment Method",
         [
@@ -92,18 +123,32 @@ with col1:
             "Electronic check",
             "Mailed check",
             "Bank transfer (automatic)",
-        ]
+        ],
+        help="Payment method can indicate customer engagement. Electronic check users often have higher churn."
     )
 
 with col2:
-    monthly = st.slider("Monthly Charges ($)", 0.0, 150.0, 70.0)
-    paperless = st.selectbox("Paperless Billing?", ["No", "Yes"])
+    monthly = st.slider(
+        "Monthly Charges ($)",
+        0.0, 150.0, 70.0,
+        help="Higher monthly charges can correlate with increased churn risk if value isn't perceived."
+    )
+    paperless = st.selectbox(
+        "Paperless Billing?",
+        ["No", "Yes"],
+        help="Indicates customer's digital engagement preference."
+    )
     internet_service = st.selectbox(
         "Internet Service",
         ["DSL", "Fiber optic", "No"],
+        help="Type of internet service. Fiber optic customers may have different churn patterns than DSL."
     )
 
-contract_months = st.slider("Contract Length (months)", 1, 36, 12)
+contract_months = st.slider(
+    "Contract Length (months)",
+    1, 36, 12,
+    help="Contract commitment. Month-to-month (1) has highest churn, 2-year (24) has lowest."
+)
 
 # -----------------------
 # BUTTON + API CALL
@@ -126,7 +171,7 @@ if st.button("🔮 Predict Churn Probability"):
             }
 
             try:
-                response = requests.post(API_URL, json=params)
+                response = requests.post(API_URL, json=params, timeout=10)
 
                 if response.status_code == 200:
                     prob = response.json()["churn_probability"]
@@ -156,8 +201,20 @@ if st.button("🔮 Predict Churn Probability"):
                     ax.xaxis.set_major_formatter(PercentFormatter(1.0))
                     st.pyplot(fig)
 
+                elif response.status_code == 400:
+                    st.error(f"❌ Invalid input: {response.text}")
+                elif response.status_code == 500:
+                    st.error("🔧 Server error - please try again later")
                 else:
-                    st.error(f"API Error: {response.text}")
+                    st.error(f"⚠️ Unexpected error (status {response.status_code}): {response.text}")
 
+            except requests.exceptions.Timeout:
+                st.error("⏱️ Request timed out - the server took too long to respond")
+            except requests.exceptions.ConnectionError:
+                st.error("🔌 Connection failed - unable to reach the prediction service")
+            except requests.exceptions.RequestException as e:
+                st.error(f"🌐 Network error: {e}")
+            except ValueError as e:
+                st.error(f"📊 Invalid response format: {e}")
             except Exception as e:
-                st.error(f"Connection failed: {e}")
+                st.error(f"❌ Unexpected error: {e}")
