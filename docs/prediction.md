@@ -1,4 +1,4 @@
-# Prediction
+# Great Prediction
 
 Our prediction model is excellent to predict Telco Churn Probability. Here's how:
 
@@ -19,25 +19,30 @@ Our prediciton model uses 11 factors to predict customers' behaviors:
 * `PaymentMethod_mailed check`
 
 ```python
-def make_prediction(**kwargs: float) -> float:
-    """Make a churn prediction given the input features."""
+def predict(data: PredictionRequest):
+
+    c1, c2 = convert_contract(data.contract_months)
+    i_fiber, i_no = convert_internet(data.internet_service)
+    p_card, p_echeck, p_mail = convert_payment(data.payment_method)
 
     try:
-        # Ensure all features exist
-        _ = [kwargs[feature] for feature in FEATURE_ORDER]
-    except KeyError as e:
-        raise ValueError(f"Missing feature: {e.args[0]}") from e
+        prob = make_prediction(
+            **{
+                "tenure": data.tenure,
+                "MonthlyCharges": data.monthly,
+                "TechSupport_yes": data.techsupport,
+                "Contract_one year": c1,
+                "Contract_two year": c2,
+                "PaperlessBilling_yes": data.paperless,
+                "InternetService_fiber optic": i_fiber,
+                "InternetService_no": i_no,
+                "PaymentMethod_credit card (automatic)": p_card,
+                "PaymentMethod_electronic check": p_echeck,
+                "PaymentMethod_mailed check": p_mail,
+            }
+        )
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
 
-    # Build DataFrame from a typed dict instead of a list
-    row = {feature: kwargs[feature] for feature in FEATURE_ORDER}
-    df = pd.DataFrame([row])
-
-    # Scale features
-    scaled = SCALER.transform(df)
-
-    # Predict probability
-    prob = float(MODEL.predict_proba(scaled)[0, 1])
-
-    print(f"Churn probability: {prob:.4f}")
-    return prob
+    return {"churn_probability": prob}
 ```
