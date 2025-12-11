@@ -1,4 +1,22 @@
-site_name: My Docs
+site_name: PYTHON Group Project Docs
+
+
+nav:
+    # 1. introduce
+    - Welcome to PYTHON Group Project: index.md
+    
+    # 2. Features 
+    - Features:
+        - Development:
+            - CI/CD pipeline: pipeline.md
+        - Core Services:
+            - Application Programing Interface: api.md
+            - Great Prediction: prediction.md
+        - User Interfaces:
+            - Interactive Streamlit Dashboard: Streamlit.md
+            - Reactive Marimo Notebook: marimo_notebook.md
+    
+
 
 theme:
   name: material
@@ -11,6 +29,8 @@ theme:
   font:
     text: Roboto
     code: Roboto Mono
+  features:
+    - navigation.expand
 
 
 markdown_extensions:
