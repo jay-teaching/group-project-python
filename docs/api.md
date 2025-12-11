@@ -19,16 +19,35 @@ Here is our Pydantic data model. Our API supports these params:
 * `PaymentMethod_mailed check`
 
 ```python
-Class Customer(Basemodel):
-    tenure: int
-    MonthlyCharges: int
-    TechSupport_yes: int
-    Contract_one year: int
-    Contract_two year: int
-    PaperlessBilling_yes: int
-    InternetService_fiber optic: int
-    InternetService_no: int
-    PaymentMethod_credit card (automatic): int
-    PaymentMethod_electronic check: int
-    PaymentMethod_mailed check: int
+class PredictionRequest(BaseModel):
+    tenure: float
+    monthly: float
+    techsupport: int
+    paperless: int
+    contract_months: int
+    internet_service: str
+    payment_method: str
+
+def convert_contract(months):
+    if months <= 1:
+        return 0, 0
+    elif months <= 12:
+        return 1, 0
+    else:
+        return 0, 1
+
+def convert_internet(service):
+    s = service.lower().strip()
+    return (
+        1 if s == "fiber optic" else 0,
+        1 if s == "no" else 0,
+    )
+
+def convert_payment(method):
+    m = method.lower().strip()
+    return (
+        1 if m == "credit card (automatic)" else 0,
+        1 if m == "electronic check" else 0,
+        1 if m == "mailed check" else 0,
+    )
 ```
