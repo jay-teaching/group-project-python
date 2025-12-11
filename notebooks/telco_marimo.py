@@ -4,14 +4,15 @@ __generated_with__ = "0.17.8"
 app = marimo.App(width="medium")
 
 with app.setup:
-    import marimo as mo
     from pathlib import Path
-    import pandas as pd
-    import numpy as np
 
+    import marimo as mo
+    import numpy as np
+    import pandas as pd
     from sklearn.linear_model import LogisticRegression
+    from sklearn.metrics import (accuracy_score, confusion_matrix, f1_score,
+                                 roc_auc_score)
     from sklearn.model_selection import train_test_split
-    from sklearn.metrics import accuracy_score, f1_score, roc_auc_score, confusion_matrix
     from sklearn.preprocessing import StandardScaler
 
 
@@ -217,7 +218,12 @@ def _(df_raw, preprocess, FEATURE_SETS, stored_models, TEST_SIZE, RANDOM_STATE):
     cm = confusion_matrix(y_test_f, model_f.predict(X_test_f))
 
     mo.md("## 📉 Confusion Matrix – Final Model")
-    mo.ui.table(pd.DataFrame(cm, columns=["Pred 0", "Pred 1"], index=["True 0", "True 1"]))
+    mo.ui.table(pd.DataFrame(
+    cm,
+    columns=pd.Index(["Pred 0", "Pred 1"]),
+    index=pd.Index(["True 0", "True 1"])
+)
+)
 
     return
 

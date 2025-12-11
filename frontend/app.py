@@ -1,6 +1,6 @@
-import streamlit as st
-import requests
 import matplotlib.pyplot as plt
+import requests
+import streamlit as st
 from matplotlib.ticker import PercentFormatter
 
 # -----------------------

@@ -1,5 +1,6 @@
 import prediction
 
+
 def test_make_prediction_simple():
     args = {
         "tenure": 10,

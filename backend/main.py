@@ -1,6 +1,7 @@
 from fastapi import FastAPI, HTTPException
-from starlette.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
+from starlette.middleware.cors import CORSMiddleware
+
 from prediction import make_prediction
 
 app = FastAPI(
