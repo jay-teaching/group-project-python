@@ -6,9 +6,6 @@ Customer churn is a critical business problem for telecommunications companies. 
 
 We built and deployed a logistic regression model using the IBM Telco Customer Churn dataset. The solution includes a REST API backend and an interactive web frontend, deployed on Azure Container Apps for scalability.
 
-Live Application:  
-https://my-backend-env.ambitioussky-e0419ec9.swedencentral.azurecontainerapps.io/docs
-
 ---
 
 ## Business Value
