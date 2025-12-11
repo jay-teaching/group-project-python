@@ -95,9 +95,15 @@ uv run streamlit run frontend/app.py --server.address=0.0.0.0
 ## How to Test the API
 
 - API docs (Swagger UI):
-  - [Local](http://localhost:8000/docs)
-  - [Production](https://my-backend-env.ambitioussky-e0419ec9.swedencentral.azurecontainerapps.io/docs)
+  - Codespaces: After forwarding port 8000, use your unique forwarded address (see PORTS tab) and add `/docs` to the end. Example: `https://<your-codespace-id>-8000.app.github.dev/docs`
+  - Local: [http://localhost:8000/docs](http://localhost:8000/docs)
+  - Production: [https://telco-backend.politeriver-aee86836.norwayeast.azurecontainerapps.io/docs](https://telco-backend.politeriver-aee86836.norwayeast.azurecontainerapps.io/docs)
 - You can test the prediction endpoint directly in your browser using these docs.
+
+> **Note for Codespaces users:**
+> Each user will have a unique forwarded address for port 8000. After starting the backend, forward port 8000 in the PORTS tab, then click the link and add `/docs` to access the Swagger UI.
+>
+> Tip: After starting the backend, Codespaces may auto-forward port 8000. If you don't see it in the PORTS tab, click "Add Port" and enter 8000. Then use the forwarded address with `/docs` to access the Swagger UI.
 
 ---
 
