@@ -2,10 +2,8 @@ site_name: PYTHON Group Project Docs
 
 
 nav:
-    # 1. introduce
     - Welcome to PYTHON Group Project: index.md
     
-    # 2. Features 
     - Features:
         - Development:
             - CI/CD pipeline: pipeline.md
