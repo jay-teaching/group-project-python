@@ -11,6 +11,7 @@ We built and deployed a logistic regression model using the IBM Telco Customer C
 ## Business Value
 
 By identifying at-risk customers before they leave telecom providers can:
+
 - Target retention offers to the right customers
 - Reduce customer acquisition costs
 - Improve customer lifetime value
@@ -20,8 +21,15 @@ By identifying at-risk customers before they leave telecom providers can:
 
 ## Model and Features
 
-We use a logistic regression model as specified in the assignment. The model uses 11 features, including 2 additional features of contract type and payment method to  improved predictive accuracy.
+We use a logistic regression model as specified in the assignment. The model uses 11 features, including 2 additional features of contract type and payment method to improved predictive accuracy. These included:
 
+- Customer tenure in months
+- Monthly charges
+- Tech support subscription
+- Paperless billing preference
+- Contract length
+- Internet service type (3 mutually exclusive binary features)
+- Payment method (4 mutually exclusive binary features)
 
 ### Model Performance
 
@@ -35,26 +43,30 @@ We use a logistic regression model as specified in the assignment. The model use
 
 The application follows a simple architecture:
 
-1. Frontend: Streamlit: Interactive web interface where users input customer attributes and receive churn predictions
-2. Backend: FastAPI: REST endpoint that processes requests and returns predictions
+1. Frontend: Streamlit was used as the interactive web interface where users input customer attributes and receive churn predictions
+2. Backend: FastAPI used as the REST endpoint that processes requests and returns predictions
 3. Machine Learning Model: Trained logistic regression model served via the API
 
-The backend is containerized using Docker and deployed to Azure Container Apps for  automatic scaling and a public URL.
+The backend is containerized using Docker and deployed to Azure Container Apps for automatic scaling and a public URL. The budget was limited to the given limit of $25/month from an Azure student account.
+
+![Azure Budget](azure_budget.png)
 
 ---
 
 ## Interactive Frontend
 
 We built a Streamlit-based web application that:
-- Adjust customer attributes using sliders and dropdowns
-- Submit predictions with a single click
-- View results with clear risk interpretation: either high or low churn probability
+
+- Adjusts customer attributes using sliders and dropdowns
+- Submits predictions with a single click
+- Displays results with clear risk interpretation: either high or low churn probability, with any figure above 20% being considered high
 
 ---
 
 ## How to Run Locally
 
 ### Prerequisites
+
 - Python 3.12+
 - uv package manager
 
@@ -73,29 +85,29 @@ uv run uvicorn backend.main:app --port 8000
 
 # In a new terminal, start the frontend
 uv run streamlit run frontend/app.py
+```
 
 ---
 
 ## How to Test the API
 
-API documentation at:
-- Local: http://localhost:8000/docs
-- Production: https://my-backend-env.ambitioussky-e0419ec9.swedencentral.azurecontainerapps.io/docs
-
-The Swagger UI allows you to test the prediction endpoint directly in your browser.
+- API docs (Swagger UI):
+  - [Local](http://localhost:8000/docs)
+  - [Production](https://my-backend-env.ambitioussky-e0419ec9.swedencentral.azurecontainerapps.io/docs)
+- You can test the prediction endpoint directly in your browser using these docs.
 
 ---
 
 ## Deployment
 
-The backend is deployed with Azure Container Apps.
-The Dockerfile and deployment configuration are included in the repository.
+- Backend is deployed with Azure Container Apps using Docker.
+- All deployment configuration and Dockerfiles are included in the repository.
 
 ---
 
 ## Project Structure
 
-```
+```text
 group-project-python/
 ├── backend/main.py          # FastAPI REST API
 ├── frontend/app.py          # Streamlit web interface
@@ -116,5 +128,3 @@ group-project-python/
 - Frameworks: FastAPI, Streamlit, scikit-learn, UV, Marimo, pytest, Docker, Uvicorn
 
 ---
-
-
