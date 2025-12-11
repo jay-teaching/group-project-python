@@ -66,8 +66,6 @@ git clone https://github.com/jay-teaching/group-project-python.git
 cd group-project-python
 
 # Set up environment
-uv venv
-source .venv/bin/activate
 uv sync
 
 # Start the backend
@@ -75,9 +73,6 @@ uv run uvicorn backend.main:app --port 8000
 
 # In a new terminal, start the frontend
 uv run streamlit run frontend/app.py
-```
-
-Open http://localhost:8501 in your browser to use the application.
 
 ---
 
