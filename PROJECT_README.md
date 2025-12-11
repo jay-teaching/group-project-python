@@ -83,8 +83,11 @@ uv sync
 # Start the backend
 uv run uvicorn backend.main:app --port 8000
 
-# In a new terminal, start the frontend
+# In a new terminal, start the frontend (localhost only)
 uv run streamlit run frontend/app.py
+
+# To allow access from any IP address (e.g., for cloud or VM deployments):
+uv run streamlit run frontend/app.py --server.address=0.0.0.0
 ```
 
 ---
